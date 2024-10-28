@@ -101,27 +101,28 @@ bray <- ggplot(bray.curtis_df, aes(x=Axis.1, y=Axis.2, color = Group)) +
 
 # Pairwise PERMANOVA
 set.seed(123)
-bray_pairwise_adonis <- pairwiseAdonis::pairwise.adonis2(bray.curtis_dist ~ Group + Age + Sex + Carbohydrate + Protein + Fat + Fiber, 
-                                                         data = sampledf, nperm = 9999)
+bray_pairwise_adonis <- pairwiseAdonis::pairwise.adonis2(bray.curtis_dist ~ Group + Age + Gender + Carbohydrate + Protein + Fat + Fiber, 
+                                                         data = sampledf, nperm = 9999, by = "terms")
+
 bray_pairwise_adonis_summary <- rbind(
   bray_pairwise_adonis$MS_vs_HC %>% 
     as.data.frame() %>% 
     rownames_to_column("Variable") %>%
-    dplyr::filter(Variable == "Model") %>%
+    dplyr::filter(Variable == "Group") %>%
     mutate(Comparison = "MS vs HC", .before = Variable) %>%
     dplyr::select(Comparison, `F`, `Pr(>F)`),
   
   bray_pairwise_adonis$MR_vs_HC %>% 
     as.data.frame() %>% 
     rownames_to_column("Variable") %>%
-    dplyr::filter(Variable == "Model") %>%
+    dplyr::filter(Variable == "Group") %>%
     mutate(Comparison = "MR vs HC", .before = Variable) %>%
     dplyr::select(Comparison, `F`, `Pr(>F)`) ,
   
   bray_pairwise_adonis$MR_vs_MS %>% 
     as.data.frame() %>% 
     rownames_to_column("Variable") %>%
-    dplyr::filter(Variable == "Model") %>%
+    dplyr::filter(Variable == "Group") %>%
     mutate(Comparison = "MR vs MS", .before = Variable) %>%
     dplyr::select(Comparison, `F`, `Pr(>F)`)
 )
@@ -173,27 +174,28 @@ jaccard <- ggplot(jaccard_df, aes(x=Axis.1, y=Axis.2, color = Group)) +
 # Pairwise PERMANOVA
 
 set.seed(123)
-jaccard_pairwise_adonis <- pairwiseAdonis::pairwise.adonis2(jaccard_dist ~ Group + Age + Sex + Carbohydrate + Protein + Fat + Fiber, 
-                                                         data = sampledf, nperm = 9999)
+jaccard_pairwise_adonis <- pairwiseAdonis::pairwise.adonis2(jaccard_dist ~ Group + Age + Gender + Carbohydrate + Protein + Fat + Fiber, 
+                                                            data = sampledf, nperm = 9999, by = "terms")
+
 jaccard_dist_pairwise_adonis_summary <- rbind(
   jaccard_pairwise_adonis$MS_vs_HC %>% 
     as.data.frame() %>% 
     rownames_to_column("Variable") %>%
-    dplyr::filter(Variable == "Model") %>%
+    dplyr::filter(Variable == "Group") %>%
     mutate(Comparison = "MS vs HC", .before = Variable) %>%
     dplyr::select(Comparison, `F`, `Pr(>F)`),
   
   jaccard_pairwise_adonis$MR_vs_HC %>% 
     as.data.frame() %>% 
     rownames_to_column("Variable") %>%
-    dplyr::filter(Variable == "Model") %>%
+    dplyr::filter(Variable == "Group") %>%
     mutate(Comparison = "MR vs HC", .before = Variable) %>%
     dplyr::select(Comparison, `F`, `Pr(>F)`) ,
   
   jaccard_pairwise_adonis$MR_vs_MS %>% 
     as.data.frame() %>% 
     rownames_to_column("Variable") %>%
-    dplyr::filter(Variable == "Model") %>%
+    dplyr::filter(Variable == "Group") %>%
     mutate(Comparison = "MR vs MS", .before = Variable) %>%
     dplyr::select(Comparison, `F`, `Pr(>F)`)
 )
