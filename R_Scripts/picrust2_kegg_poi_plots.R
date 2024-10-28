@@ -63,10 +63,10 @@ annotation_df <- data.frame(
   start = c("HC", "MS", "HC", "MS"),
   end = c("MR", "MR", "MS", "MR"),
   y = c(1.75, 1.5, 2, 2.6),
-  Comparison = c("DR_vs_HC", 
+  Comparison = c("MR_vs_HC", 
             "MR_vs_MS",
             "MS_vs_HC",
-            "MR_vs_DMS")) %>% 
+            "MR_vs_MS")) %>% 
   left_join(., poi_significance %>% dplyr::select(Comparison, description, pval, qval), 
             by = c("Comparison", "description")) %>%
   mutate(label = paste0("pval=", round(pval, 3), "\np.adj=", round(qval, 3)))
